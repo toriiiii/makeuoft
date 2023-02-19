@@ -1,7 +1,25 @@
+
 #include <Servo.h>
 
 // let's make an instance of Servo
 Servo armServo;
+// Motor A
+
+int enA = 9;
+
+int in1 = 8;
+
+int in2 = 7;
+
+ 
+
+// Motor B
+
+int enB = 3;
+
+int in3 = 5;
+
+int in4 = 4;
 
 // this function automatically runs only once when the Arduino's power up
 void setup() {
@@ -13,6 +31,24 @@ void setup() {
 
   // pin A5 is for the distance sensor
   pinMode(A5, INPUT);
+
+  pinMode(enA, OUTPUT);
+
+  pinMode(enB, OUTPUT);
+
+  pinMode(in1, OUTPUT);
+
+  pinMode(in2, OUTPUT);
+
+  pinMode(in3, OUTPUT);
+
+  pinMode(in4, OUTPUT);
+
+  // these 3 pins (pin0, pin1, pin13) are for turning on LEDs
+  // Arduino nano already has 3 LEDs on these pins.
+  //pinMode(13, OUTPUT);
+  //pinMode(0, OUTPUT);
+  //pinMode(1, OUTPUT);
 }
 
 // in order to check coming hand,
@@ -26,7 +62,7 @@ const int THRESHOLD = 360;
 
 void loop() {
 
-  // read A5's analog value and asign the value into sensorValue
+  // read A7's analog value and asign the value into sensorValue
   sensorValue = analogRead(A5);
 
   // these two lines means that some object has come
@@ -51,6 +87,9 @@ void loop() {
 
 
 void action() {
+  // call this function for turning on three LEDs all together
+  //led(true);
+
   // eating sequence
   // wait 1000ms (1 second)
   delay(1000);
@@ -88,5 +127,64 @@ void action() {
 
   // release arm's torque
   armServo.detach();
+
+   for(int i=0; i<2; i++) // loop 3 times
+
+  {
+
+    // Move forward
+
+    digitalWrite(in1, HIGH);
+
+    digitalWrite(in2, LOW);
+
+    digitalWrite(in3, HIGH);
+
+    digitalWrite(in4, LOW);
+
+    analogWrite(enA, 200);
+
+    analogWrite(enB, 200);
+
+    delay(500);
+
+ 
+
+    // Move backward
+
+    digitalWrite(in1, LOW);
+
+    digitalWrite(in2, HIGH);
+
+    digitalWrite(in3, LOW);
+
+    digitalWrite(in4, HIGH);
+
+    analogWrite(enA, 200);
+
+    analogWrite(enB, 200);
+
+    delay(500);
+
+  }
+
+ 
+
+  // Stop the motors
+
+  digitalWrite(in1, LOW);
+
+  digitalWrite(in2, LOW);
+
+  digitalWrite(in3, LOW);
+
+  digitalWrite(in4, LOW);
+
+
+
+
+  // call this function for turning off three LEDs all together
+  //led(false);
 }
+
 
